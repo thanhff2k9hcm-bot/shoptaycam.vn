@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tài Khoản & Đơn Hàng - Shoptaycam.vn</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      :root {
+        --bg-color: #0d1117;
+        --card-bg: #161b22;
+        --border-color: #30363d;
+        --text-main: #f0f6fc;
+        --text-muted: #8b949e;
+        --primary: #238636;
+        --accent: #58a6ff;
+        --danger: #da3633;
+        --warning: #d29922;
+        --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+      body.light-mode {
+        --bg-color: #f0f2f5;
+        --card-bg: #ffffff;
+        --border-color: #d8dee4;
+        --text-main: #24292f;
+        --text-muted: #57606a;
+        --primary: #2ea44f;
+        --accent: #0969da;
+        --danger: #cf222e;
+        --warning: #9a6700;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+      body {
+        background-color: var(--bg-color) !important;
+        color: var(--text-main) !important;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+      header {
+        background: var(--card-bg) !important;
+        padding: 18px 35px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+      .logo {
+        color: var(--warning) !important;
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 20px;
+      }
+      nav {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      nav a {
+        color: var(--text-main) !important;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 6px 10px;
+        border-radius: 6px;
+      }
+      nav a:hover {
+        color: var(--accent) !important;
+        background: rgba(88, 166, 255, 0.1);
+      }
+      .theme-btn {
+        background: var(--card-bg) !important;
+        color: var(--text-main) !important;
+        border: 1px solid var(--border-color);
+        padding: 7px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 0 20px;
+        display: flex;
+        gap: 30px;
+      }
+      .sidebar {
+        width: 250px;
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow);
+        height: fit-content;
+      }
+      .sidebar a {
+        display: block;
+        padding: 12px 15px;
+        color: var(--text-main);
+        text-decoration: none;
+        font-weight: 600;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+      .sidebar a.active,
+      .sidebar a:hover {
+        background: var(--accent);
+        color: white !important;
+      }
+      .content {
+        flex: 1;
+        background: var(--card-bg);
+        padding: 30px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow);
+      }
+      h3 {
+        color: var(--accent) !important;
+        margin-bottom: 20px;
+        font-size: 20px;
+        font-weight: 800;
+      }
+      .info-group {
+        margin-bottom: 15px;
+        font-size: 15px;
+      }
+      .info-group strong {
+        color: var(--text-muted);
+        display: inline-block;
+        width: 140px;
+      }
+      .form-section {
+        background: var(--bg-color);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 25px;
+      }
+      .form-section h4 {
+        color: var(--accent);
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 8px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        font-weight: 600;
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 10px 12px;
+        background: var(--card-bg) !important;
+        color: var(--text-main) !important;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+      }
+      .btn-submit {
+        background: var(--primary);
+        color: white !important;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .order-card {
+        background: var(--bg-color);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+      .order-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-weight: bold;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 8px;
+      }
+      .badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+      .badge-pending {
+        background: var(--warning);
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="index.html" class="logo">Shoptaycam.vn</a>
+      <nav>
+        <a href="index.html">Trang Chủ</a>
+        <a href="products.html">Sản Phẩm</a>
+        <a href="cart.html">Giỏ Hàng (<span id="cart-count">0</span>)</a>
+        <a
+          href="admincontroller.html"
+          id="nav-admin"
+          style="color: var(--warning) !important; font-weight: bold; display: none"
+          >Quản Trị</a
+        >
+        <a
+          href="profile.html"
+          id="user-display"
+          style="color: var(--accent) !important; font-weight: bold"
+          >Tài khoản</a
+        >
+        <a href="login.html" style="color: var(--danger) !important; font-weight: bold"
+          >Đăng Xuất</a
+        >
+        <button class="theme-btn" onclick="toggleTheme()">Sáng/Tối</button>
+      </nav>
+    </header>
+
+    <div class="container">
+      <div class="sidebar">
+        <a href="#profile" class="tab-link active" onclick="switchTab('profile')"
+          >Thông Tin Tài Khoản</a
+        >
+        <a href="#orders" class="tab-link" id="nav-orders-tab" onclick="switchTab('orders')"
+          >Đơn Hàng Của Tôi</a
+        >
+      </div>
+
+      <div class="content">
+        <div id="tab-profile">
+          <h3>Thông Tin Cá Nhân</h3>
+          <div class="info-group">
+            <strong>Tên tài khoản:</strong> <span id="info-username">Đang tải...</span>
+          </div>
+          <div class="info-group">
+            <strong>Số điện thoại:</strong> <span id="info-phone">Đang tải...</span>
+          </div>
+          <div class="info-group" id="address-group">
+            <strong>Địa chỉ:</strong> <span id="info-address">Đang tải...</span>
+          </div>
+
+          <div class="form-section">
+            <h4>Cập Nhật Thông Tin Liên Hệ</h4>
+            <form onsubmit="updateProfileInfo(event)">
+              <div class="form-group">
+                <label for="update-phone">Số điện thoại:</label>
+                <input
+                  type="text"
+                  id="update-phone"
+                  placeholder="Nhập số điện thoại mới"
+                  required
+                  maxlength="10"
+                />
+              </div>
+              <div class="form-group" id="form-group-address">
+                <label for="update-address">Địa chỉ giao hàng:</label>
+                <input type="text" id="update-address" placeholder="Nhập địa chỉ giao hàng mới" />
+              </div>
+              <button type="submit" class="btn-submit">Lưu Thay Đổi</button>
+            </form>
+          </div>
+
+          <div class="form-section">
+            <h4>Đổi Mật Khẩu</h4>
+            <form onsubmit="updatePassword(event)">
+              <div class="form-group">
+                <label for="old-password">Mật khẩu hiện tại:</label>
+                <input
+                  type="password"
+                  id="old-password"
+                  placeholder="Nhập mật khẩu hiện tại"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="new-password">Mật khẩu mới:</label>
+                <input
+                  type="password"
+                  id="new-password"
+                  placeholder="Nhập mật khẩu mới (ít nhất 6 ký tự)"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="confirm-password">Xác nhận mật khẩu mới:</label>
+                <input
+                  type="password"
+                  id="confirm-password"
+                  placeholder="Xác nhận lại mật khẩu mới"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn-submit" style="background: var(--accent)">
+                Cập Nhật Mật Khẩu
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div id="tab-orders" style="display: none">
+          <h3>Lịch Sử Đơn Hàng</h3>
+          <div id="order-list-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/profile.js"></script>
+  </body>
+</html>

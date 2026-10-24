@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang Quản Trị - Shoptaycam.vn</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      :root {
+        --bg-color: #0d1117;
+        --card-bg: #161b22;
+        --border-color: #30363d;
+        --text-main: #f0f6fc;
+        --text-muted: #8b949e;
+        --primary: #238636;
+        --accent: #58a6ff;
+        --danger: #da3633;
+        --warning: #d29922;
+        --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+      body.light-mode {
+        --bg-color: #f0f2f5;
+        --card-bg: #ffffff;
+        --border-color: #d8dee4;
+        --text-main: #24292f;
+        --text-muted: #57606a;
+        --primary: #2ea44f;
+        --accent: #0969da;
+        --danger: #cf222e;
+        --warning: #9a6700;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-color);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 5px;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+      body {
+        background-color: var(--bg-color) !important;
+        color: var(--text-main) !important;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+      header {
+        background: var(--card-bg) !important;
+        padding: 18px 35px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+      .logo {
+        color: var(--warning) !important;
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 20px;
+      }
+      nav {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      nav a {
+        color: var(--text-main) !important;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 6px 10px;
+        border-radius: 6px;
+      }
+      nav a:hover {
+        color: var(--accent) !important;
+        background: rgba(88, 166, 255, 0.1);
+      }
+      .theme-btn {
+        background: var(--card-bg) !important;
+        color: var(--text-main) !important;
+        border: 1px solid var(--border-color);
+        padding: 7px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 0 20px;
+      }
+      h2 {
+        color: var(--accent) !important;
+        margin-bottom: 20px;
+        font-size: 24px;
+        font-weight: 800;
+      }
+      .admin-section {
+        background: var(--card-bg);
+        padding: 25px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow);
+        margin-bottom: 30px;
+      }
+      .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+      .search-box {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .btn-add {
+        background: var(--primary);
+        color: white !important;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      th,
+      td {
+        padding: 12px;
+        border-bottom: 1px solid var(--border-color);
+        text-align: left;
+        font-size: 14px;
+      }
+      th {
+        color: var(--text-muted);
+        font-weight: 700;
+      }
+      .thumb {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+      }
+      .btn-action {
+        background: var(--danger);
+        color: white !important;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .btn-edit {
+        background: var(--warning);
+        color: white !important;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        margin-right: 5px;
+      }
+
+      /* Khung thêm/sửa sản phẩm */
+      .product-form-box {
+        background: var(--bg-color);
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid var(--border-color);
+        margin-bottom: 25px;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 700;
+        color: var(--text-muted);
+        font-size: 13px;
+      }
+
+      /* Đảm bảo chữ trắng rõ ràng trên nền tối cho input và select */
+      .form-group input,
+      .form-group select,
+      .search-box input,
+      .search-box select {
+        width: 100%;
+        padding: 9px 12px;
+        background-color: var(--card-bg) !important;
+        color: #ffffff !important;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+      }
+      .form-group select option,
+      .search-box select option {
+        background-color: var(--card-bg) !important;
+        color: #ffffff !important;
+      }
+      .form-group input::placeholder,
+      .search-box input::placeholder {
+        color: var(--text-muted) !important;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="index.html" class="logo">Shoptaycam.vn</a>
+      <nav>
+        <a href="index.html">Trang Chủ</a>
+        <a href="products.html">Sản Phẩm</a>
+        <a href="cart.html">Giỏ Hàng (<span id="cart-count">0</span>)</a>
+        <a
+          href="admincontroller.html"
+          id="nav-admin"
+          style="color: var(--warning) !important; font-weight: bold"
+          >Quản Trị</a
+        >
+        <a
+          href="profile.html"
+          id="user-display"
+          style="color: var(--accent) !important; font-weight: bold"
+          >admin</a
+        >
+        <a href="login.html" style="color: var(--danger) !important; font-weight: bold"
+          >Đăng Xuất</a
+        >
+        <button class="theme-btn" onclick="toggleTheme()">Sáng/Tối</button>
+      </nav>
+    </header>
+
+    <div class="container">
+      <!-- THỐNG KÊ TỔNG QUAN -->
+      <h2>Thống Kê Hệ Thống</h2>
+      <div
+        class="admin-section"
+        style="
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 20px;
+        "
+      >
+        <div
+          style="
+            background: var(--bg-color);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+          "
+        >
+          <div
+            style="font-size: 13px; color: var(--text-muted); font-weight: bold; margin-bottom: 5px"
+          >
+            TỔNG SẢN PHẨM
+          </div>
+          <div
+            id="stat-total-products"
+            style="font-size: 24px; font-weight: 800; color: var(--accent)"
+          >
+            0
+          </div>
+        </div>
+        <div
+          style="
+            background: var(--bg-color);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+          "
+        >
+          <div
+            style="font-size: 13px; color: var(--text-muted); font-weight: bold; margin-bottom: 5px"
+          >
+            CÒN HÀNG
+          </div>
+          <div id="stat-in-stock" style="font-size: 24px; font-weight: 800; color: var(--primary)">
+            0
+          </div>
+        </div>
+        <div
+          style="
+            background: var(--bg-color);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+          "
+        >
+          <div
+            style="font-size: 13px; color: var(--text-muted); font-weight: bold; margin-bottom: 5px"
+          >
+            HẾT HÀNG
+          </div>
+          <div id="stat-out-stock" style="font-size: 24px; font-weight: 800; color: var(--danger)">
+            0
+          </div>
+        </div>
+      </div>
+
+      <!-- QUẢN LÝ SẢN PHẨM -->
+      <h2>Quản Lý Sản Phẩm</h2>
+      <div class="admin-section">
+        <div class="product-form-box">
+          <h3 id="form-title" style="color: var(--accent); margin-bottom: 15px; font-size: 16px">
+            Thêm Sản Phẩm Mới
+          </h3>
+          <input type="hidden" id="edit-product-id" />
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Tên sản phẩm:</label>
+              <input type="text" id="prod-name" placeholder="Nhập tên sản phẩm" />
+            </div>
+            <div class="form-group">
+              <label>Giá bán (VNĐ):</label>
+              <input type="number" id="prod-price" placeholder="Nhập giá sản phẩm" />
+            </div>
+            <div class="form-group">
+              <label>Link hình ảnh:</label>
+              <input type="text" id="prod-image" placeholder="Dán link ảnh sản phẩm" />
+            </div>
+            <div class="form-group">
+              <label>Danh mục:</label>
+              <select id="prod-category">
+                <option value="khong-day">Không dây</option>
+                <option value="co-day">Có dây</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Tình trạng:</label>
+              <select id="prod-status">
+                <option value="con-hang">Còn hàng</option>
+                <option value="het-hang">Hết hàng</option>
+              </select>
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px">
+            <button class="btn-add" onclick="saveProduct()" id="btn-save-prod" style="margin: 0">
+              Lưu Sản Phẩm
+            </button>
+            <button
+              onclick="resetProductForm()"
+              style="
+                background: var(--border-color);
+                color: var(--text-main);
+                border: none;
+                padding: 10px 18px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-weight: bold;
+              "
+            >
+              Làm Mới
+            </button>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <div class="search-box">
+            <select id="admin-filter-category" onchange="filterAdminProducts()">
+              <option value="all">Tất cả danh mục</option>
+              <option value="khong-day">Không dây</option>
+              <option value="co-day">Có dây</option>
+            </select>
+            <input
+              type="text"
+              id="admin-search-product"
+              placeholder="Tìm tên sản phẩm..."
+              onkeyup="filterAdminProducts()"
+            />
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Hình Ảnh</th>
+              <th>Tên Sản Phẩm</th>
+              <th>Giá Bán</th>
+              <th>Danh Mục</th>
+              <th>Trạng Thái</th>
+              <th>Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody id="admin-products-body"></tbody>
+        </table>
+      </div>
+
+      <!-- QUẢN LÝ ĐƠN HÀNG -->
+      <h2>Quản Lý Đơn Hàng</h2>
+      <div class="admin-section">
+        <div class="toolbar" style="justify-content: flex-end">
+          <div class="search-box">
+            <input
+              type="text"
+              id="admin-search-order"
+              placeholder="Tìm theo Mã Đơn hoặc SĐT..."
+              onkeyup="filterAdminOrders()"
+              style="width: 250px"
+            />
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Mã Đơn</th>
+              <th>Khách Hàng</th>
+              <th>SĐT</th>
+              <th>Địa Chỉ</th>
+              <th>Tổng Tiền</th>
+              <th>Trạng Thái</th>
+              <th>Hành Động</th>
+            </tr>
+          </thead>
+          <tbody id="admin-orders-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script src="../js/admincontroller.js"></script>
+  </body>
+</html>

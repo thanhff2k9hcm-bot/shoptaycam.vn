@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shoptaycam.vn - Chuyên Tay Cầm Chơi Game</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      :root {
+        --bg-color: #0d1117;
+        --card-bg: #161b22;
+        --border-color: #30363d;
+        --text-main: #f0f6fc;
+        --text-muted: #8b949e;
+        --primary: #238636;
+        --primary-hover: #2ea043;
+        --accent: #58a6ff;
+        --danger: #da3633;
+        --warning: #d29922;
+        --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+
+      body.light-mode {
+        --bg-color: #f0f2f5;
+        --card-bg: #ffffff;
+        --border-color: #d8dee4;
+        --text-main: #24292f;
+        --text-muted: #57606a;
+        --primary: #2ea44f;
+        --primary-hover: #2c974b;
+        --accent: #0969da;
+        --danger: #cf222e;
+        --warning: #9a6700;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      body {
+        background-color: var(--bg-color) !important;
+        color: var(--text-main) !important;
+        padding: 0;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      header {
+        background: var(--card-bg) !important;
+        padding: 18px 35px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .logo {
+        color: var(--warning) !important;
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 20px;
+      }
+
+      nav {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      nav a {
+        color: var(--text-main) !important;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 6px 10px;
+        border-radius: 6px;
+      }
+
+      nav a:hover {
+        color: var(--accent) !important;
+        background: rgba(88, 166, 255, 0.1);
+      }
+
+      .theme-btn {
+        background: var(--card-bg) !important;
+        color: var(--text-main) !important;
+        border: 1px solid var(--border-color);
+        padding: 7px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .banner-container {
+        position: relative;
+        max-width: 1200px;
+        margin: 30px auto;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        height: 420px;
+        border: 1px solid var(--border-color);
+        background: var(--card-bg);
+      }
+
+      .banner-slide {
+        display: none;
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .banner-slide.active {
+        display: block;
+      }
+
+      .banner-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .banner-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 30px;
+        background: linear-gradient(to top, rgba(13, 17, 23, 0.95), transparent);
+      }
+
+      .banner-content h2 {
+        margin: 0 0 8px 0;
+        color: #ffffff !important;
+        font-size: 28px;
+        font-weight: 800;
+      }
+
+      .banner-content p {
+        margin: 0;
+        color: #f0f6fc !important;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .prev-btn,
+      .next-btn {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 14px 18px;
+        color: white !important;
+        font-weight: bold;
+        font-size: 18px;
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        z-index: 10;
+      }
+
+      .prev-btn {
+        left: 20px;
+      }
+      .next-btn {
+        right: 20px;
+      }
+
+      .flash-sale-header {
+        max-width: 1200px;
+        margin: 40px auto 20px auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        padding: 25px 20px;
+        background: var(--card-bg) !important;
+        border: 2px solid var(--danger);
+        border-radius: 12px;
+      }
+
+      .flash-sale-title {
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--danger) !important;
+      }
+
+      .countdown-timer {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-main) !important;
+      }
+
+      .time-box {
+        background: var(--danger);
+        color: white !important;
+        padding: 8px 14px;
+        border-radius: 8px;
+        font-weight: 800;
+        font-size: 20px;
+      }
+
+      main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px 50px 20px;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 40px;
+        margin-bottom: 20px;
+      }
+
+      .section-header h2 {
+        color: var(--text-main) !important;
+        border-left: 5px solid var(--accent);
+        padding-left: 12px;
+        margin: 0;
+        font-size: 22px;
+        font-weight: 800;
+      }
+
+      .section-header a {
+        color: var(--accent) !important;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 24px;
+        margin-top: 20px;
+      }
+
+      .product-card {
+        background: var(--card-bg) !important;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: var(--shadow);
+      }
+
+      .product-card img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        background: var(--bg-color);
+        border: 1px solid var(--border-color);
+      }
+
+      .product-card h4 {
+        margin: 0 0 10px 0;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--text-main) !important;
+        height: 44px;
+        overflow: hidden;
+      }
+
+      .product-card .price {
+        color: var(--danger) !important;
+        font-weight: 800;
+        font-size: 17px;
+        margin-bottom: 15px;
+      }
+
+      .old-price {
+        text-decoration: line-through;
+        color: var(--text-muted) !important;
+        font-size: 13px;
+        margin-right: 8px;
+      }
+
+      .btn-main {
+        background: var(--accent);
+        color: white !important;
+        border: none;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 700;
+        text-decoration: none;
+        text-align: center;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="index.html" class="logo">Shoptaycam.vn</a>
+      <nav>
+        <a href="index.html">Trang Chủ</a>
+        <a href="products.html">Sản Phẩm</a>
+        <a href="cart.html">Giỏ Hàng (<span id="cart-count">0</span>)</a>
+
+        <a
+          href="admincontroller.html"
+          id="nav-admin"
+          style="color: var(--warning) !important; font-weight: bold; display: none"
+          >Quản Trị</a
+        >
+
+        <a
+          href="profile.html"
+          id="user-display"
+          style="color: var(--accent) !important; font-weight: bold"
+          >Tài khoản</a
+        >
+        <a href="login.html" style="color: var(--danger) !important; font-weight: bold"
+          >Đăng Xuất</a
+        >
+        <button class="theme-btn" onclick="toggleTheme()">Sáng/Tối</button>
+      </nav>
+    </header>
+
+    <main>
+      <div class="banner-container">
+        <div class="banner-slide active">
+          <img
+            src="https://envytechmedia.s3.eu-central-1.amazonaws.com/test-Vader-4-Pro-3-scaled.jpg"
+            alt="Banner 1"
+          />
+          <div class="banner-content">
+            <h2>Tay Cầm Gaming Chính Hãng</h2>
+            <p>Trải nghiệm mượt mà, độ trễ cực thấp cho mọi tựa game hot nhất!</p>
+          </div>
+        </div>
+        <div class="banner-slide">
+          <img
+            src="https://tse1.mm.bing.net/th/id/OIP.53IuZdWVy-jlwTvQNiAuvgHaEK?r=0&w=2915&h=1640&rs=1&pid=ImgDetMain&o=7&rm=3"
+            alt="Banner 2"
+          />
+          <div class="banner-content">
+            <h2>Siêu Sale Tay Cầm Không Dây</h2>
+            <p>Giảm giá lên đến 30% cho các dòng sản phẩm cao cấp.</p>
+          </div>
+        </div>
+        <div class="banner-slide">
+          <img src="../baohanh.jpg" alt="Banner 3" />
+          <div class="banner-content">
+            <h2>Bảo Hành Chính Hãng 1 Đổi 1</h2>
+            <p>Cam kết chất lượng hàng đầu cho game thủ.</p>
+          </div>
+        </div>
+        <button class="prev-btn" onclick="changeSlide(-1)">&#10094;</button>
+        <button class="next-btn" onclick="changeSlide(1)">&#10095;</button>
+      </div>
+
+      <div class="flash-sale-header">
+        <div class="flash-sale-title">FLASH SALE ONLINE</div>
+        <div class="countdown-timer">
+          <span>Kết thúc sau:</span>
+          <div class="time-box" id="hours">03</div>
+          :
+          <div class="time-box" id="minutes">15</div>
+          :
+          <div class="time-box" id="seconds">00</div>
+        </div>
+      </div>
+
+      <div id="dynamic-content-area"></div>
+    </main>
+
+    <script src="../js/product.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/index.js"></script>
+  </body>
+</html>
