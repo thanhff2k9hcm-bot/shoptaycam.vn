@@ -37,10 +37,11 @@ function loadAdminProducts(list = null) {
       let statusText = isOutStock ? "Hết hàng" : "Còn hàng";
       let statusBg = isOutStock ? "rgba(218, 54, 51, 0.2)" : "rgba(35, 134, 54, 0.2)";
       let statusColor = isOutStock ? "var(--danger)" : "var(--primary)";
+      let imgSrc = p.image || p.img || "https://via.placeholder.com/150";
 
       return `
       <tr>
-        <td><img src="${p.image || p.img || "https://via.placeholder.com/150"}" class="thumb" alt="img"></td>
+        <td><img src="${imgSrc}" class="thumb" alt="img" onerror="this.src='https://images.unsplash.com/photo-1600080972464-8e5f35f63d08?w=300'"></td>
         <td>${p.name || p.title}</td>
         <td style="color: var(--danger); font-weight: bold;">${originalPrice.toLocaleString("vi-VN")} đ</td>
         <td>${p.category || "khong-day"}</td>
@@ -141,7 +142,7 @@ function saveProduct() {
   let status = document.getElementById("prod-status").value;
 
   if (!name || !price) {
-    alert("Vui lòng nhập tên và giá sản phẩm!");
+    showCustomAlert("Vui lòng nhập tên và giá sản phẩm!", false);
     return;
   }
 
@@ -179,15 +180,16 @@ function saveProduct() {
   localStorage.setItem("customProducts", JSON.stringify(products));
   resetProductForm();
   loadAdminProducts();
-  alert("Lưu sản phẩm thành công!");
+  showCustomAlert("Lưu sản phẩm thành công!", true);
 }
 
 function deleteProduct(id) {
-  if (!confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) return;
-  let products = JSON.parse(localStorage.getItem("customProducts")) || window.productsData || [];
-  products = products.filter((item) => item.id != id);
-  localStorage.setItem("customProducts", JSON.stringify(products));
-  loadAdminProducts();
+  showCustomConfirm("Bạn có chắc chắn muốn xóa sản phẩm này?", () => {
+    let products = JSON.parse(localStorage.getItem("customProducts")) || window.productsData || [];
+    products = products.filter((item) => item.id != id);
+    localStorage.setItem("customProducts", JSON.stringify(products));
+    loadAdminProducts();
+  });
 }
 
 function loadAdminOrders(list = null) {
@@ -249,18 +251,92 @@ function toggleOrderStatus(index) {
   let orders = JSON.parse(localStorage.getItem("orders")) || [];
   if (orders[index]) {
     if (orders[index].status === "Đã hoàn thành") {
-      alert("Đơn hàng này đã hoàn thành và không thể thay đổi trạng thái nữa!");
+      showCustomAlert("Đơn hàng này đã hoàn thành và không thể thay đổi trạng thái nữa!", false);
       return;
     }
 
-    if (
-      confirm(
-        "Bạn có chắc chắn muốn chuyển đơn hàng này sang trạng thái 'Đã hoàn thành'? Thao tác này không thể hoàn tác.",
-      )
-    ) {
+    showCustomConfirm("Bạn có chắc chắn muốn chuyển đơn hàng này sang trạng thái 'Đã hoàn thành'? Thao tác này không thể hoàn tác.", () => {
       orders[index].status = "Đã hoàn thành";
       localStorage.setItem("orders", JSON.stringify(orders));
       loadAdminOrders();
-    }
+    });
   }
+}
+
+// Các hàm Modal tùy chỉnh giao diện (thay thế alert và confirm mặc định)
+function showCustomAlert(message, isSuccess = true, callback = null) {
+  let oldAlert = document.getElementById("custom-alert-modal");
+  if (oldAlert) oldAlert.remove();
+
+  let iconHtml = isSuccess
+    ? `<div style="font-size: 42px; color: #2ea44f; margin-bottom: 12px;">✅</div>`
+    : `<div style="font-size: 42px; color: #da3633; margin-bottom: 12px; font-weight: bold;">❌</div>`;
+
+  let alertBox = document.createElement("div");
+  alertBox.id = "custom-alert-modal";
+  alertBox.innerHTML = `
+    <div style="background: var(--card-bg, #161b22); color: var(--text-main, #f0f6fc); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color, #30363d); box-shadow: 0 10px 30px rgba(0,0,0,0.6); text-align: center; max-width: 380px; width: 90%;">
+      ${iconHtml}
+      <div style="font-size: 16px; font-weight: bold; margin-bottom: 15px; line-height: 1.5;">${message}</div>
+      <button id="alert-ok-btn" style="background: ${isSuccess ? "var(--primary, #238636)" : "var(--danger, #da3633)"}; color: white; border: none; padding: 10px 25px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px;">OK</button>
+    </div>
+  `;
+
+  alertBox.style.position = "fixed";
+  alertBox.style.top = "0";
+  alertBox.style.left = "0";
+  alertBox.style.width = "100%";
+  alertBox.style.height = "100%";
+  alertBox.style.background = "rgba(0, 0, 0, 0.6)";
+  alertBox.style.display = "flex";
+  alertBox.style.justifyContent = "center";
+  alertBox.style.alignItems = "center";
+  alertBox.style.zIndex = "99999";
+
+  document.body.appendChild(alertBox);
+
+  document.getElementById("alert-ok-btn").onclick = function () {
+    alertBox.remove();
+    if (callback) callback();
+  };
+}
+
+function showCustomConfirm(message, onConfirm) {
+  let oldConfirm = document.getElementById("custom-confirm-modal");
+  if (oldConfirm) oldConfirm.remove();
+
+  let confirmBox = document.createElement("div");
+  confirmBox.id = "custom-confirm-modal";
+  confirmBox.innerHTML = `
+    <div style="background: var(--card-bg, #161b22); color: var(--text-main, #f0f6fc); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color, #30363d); box-shadow: 0 10px 30px rgba(0,0,0,0.6); text-align: center; max-width: 380px; width: 90%;">
+      <div style="font-size: 42px; color: #d29922; margin-bottom: 12px; font-weight: bold;">⚠️</div>
+      <div style="font-size: 16px; font-weight: bold; margin-bottom: 20px; line-height: 1.5;">${message}</div>
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button id="confirm-yes-btn" style="background: var(--danger, #da3633); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px;">Xác Nhận</button>
+        <button id="confirm-no-btn" style="background: var(--border-color, #30363d); color: var(--text-main); border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px;">Hủy</button>
+      </div>
+    </div>
+  `;
+
+  confirmBox.style.position = "fixed";
+  confirmBox.style.top = "0";
+  confirmBox.style.left = "0";
+  confirmBox.style.width = "100%";
+  confirmBox.style.height = "100%";
+  confirmBox.style.background = "rgba(0, 0, 0, 0.6)";
+  confirmBox.style.display = "flex";
+  confirmBox.style.justifyContent = "center";
+  confirmBox.style.alignItems = "center";
+  confirmBox.style.zIndex = "99999";
+
+  document.body.appendChild(confirmBox);
+
+  document.getElementById("confirm-yes-btn").onclick = function () {
+    confirmBox.remove();
+    if (onConfirm) onConfirm();
+  };
+
+  document.getElementById("confirm-no-btn").onclick = function () {
+    confirmBox.remove();
+  };
 }
